@@ -1,0 +1,6 @@
+
+# 随机生成主机NodeId，确定每次访问的都不一样
+node:
+  id: ${random.int(0,800)}
+server:
+  port: 8080
