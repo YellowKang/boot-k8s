@@ -1,6 +1,36 @@
 
+spring:
+  application:
+    # 项目名称启动时传入Log4j2作为app名称
+    name: test-k8s
+  profiles:
+    active: log
+rocketmq:
+  # 服务NameServer地址，默认  "localhost:9876"
+  nameSrvAddr: 139.9.80.252:9876
+  # 是否开启RocketMQ
+  enable: true
+
 # 随机生成主机NodeId，确定每次访问的都不一样
 node:
   id: ${random.int(0,800)}
+log4j2:
+  logstash:
+    # 自定义配置Logstash地址
+    address: 124.71.9.101
+    # 自定义配置Logstash端口号
+    port: 9400
+      # 自定义Json消息
+      # {
+      #	"app": "${spring.application.name}",  当前项目名称
+      #	"class": "%c",                        类全限定名称
+      #	"method": "%M",                       输出日志方法
+      #	"traceId": "%X{traceId}",             traceId跟踪
+      #	"level": "%level",                    日志级别
+      #   "message": "[%thread] [%c:%L] --- %replace{%msg}{\"}{\\\"}\"  消息内容体，将"替换为转义，防止日志中输出Json导致解析异常
+    #   "profile":"${spring.profiles.active}" 当前启动环境
+    # }
+    # Json写入至ELK中属性
+    pattern: "{\"app\":\"${spring.application.name}\", \"profile\":\"${spring.profiles.active}\", \"class\":\"%c\",\"method\":\"%M\",\"traceId\":\"%X{traceId}\",\"level\": \"%level\", \"message\": \"[%thread] [%c:%L] --- %replace{%msg}{\\\"}{\\\\\\\"}\\\"}%n"
 server:
-  port: 8080
+  port: 9999

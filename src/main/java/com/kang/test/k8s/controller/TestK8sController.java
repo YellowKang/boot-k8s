@@ -1,5 +1,7 @@
 package com.kang.test.k8s.controller;
 
+import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +19,7 @@ import java.util.Map;
  */
 
 @RestController
+@Slf4j
 public class TestK8sController {
     
     @Value("${node.id}")
@@ -31,6 +34,7 @@ public class TestK8sController {
         map.put("主机名",hostName);
         map.put("主机地址",hostAddress);
         map.put("NodeId",nodeId);
+        log.info("测试日志:{}", JSONUtil.toJsonStr(map));
         return map;
     }
 
